@@ -13,7 +13,7 @@ export default function Home() {
         <link rel="stylesheet" href="/favicon.ico" />
       </Head>
 
-      <main className="text-red-500">
+      <main>
         <p>Placeholder for main</p>
       </main>
 
