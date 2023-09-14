@@ -1,3 +1,4 @@
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
@@ -25,6 +26,10 @@ import caca6 from "../public/caca-6.jpg";
 import selfie from "../public/trevortwomeyselfie.jpeg";
 import { useRef } from "react";
 
+type images = {
+  src: string;
+  thumb: string;
+};
 const tabs = [
   {
     key: "All",
@@ -40,9 +45,25 @@ const tabs = [
   },
 ];
 
-const images = [caca1, caca3, caca4, caca5, caca6];
-export default function Home() {
+type HomeProps = {
+  images: {
+    src: string;
+  }[];
+};
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const images = [caca1, caca3, caca4, caca5, caca6];
+
+  return Promise.resolve({
+    props: {
+      images,
+    },
+  });
+};
+
+export default function Home({ images }: HomeProps) {
   const lightboxRef = useRef<LightGallery | null>(null);
+
   return (
     <div className="h-full overflow-auto">
       <Head>
@@ -52,14 +73,15 @@ export default function Home() {
       </Head>
 
       <Image
+        priority
         className="fixed left-0 top-0 z-0"
         src={selfie}
         alt="background-image"
         placeholder="blur"
       />
-      <div className="fixed left-0 top-0 w-full h-full  z-10 from-stone-900 bg-gradient-to-t"></div>
+      <div className="fixed left-0 top-0 w-full h-full z-10 from-stone-900 bg-gradient-to-t"></div>
 
-      <header className="fixed bg-stone-900 top-0 w-full z-30 flex justify-between items-center h-[90px] px-10">
+      <header className="fixed top-0 w-full z-30 flex justify-between items-center h-[90px] px-10">
         <span>
           <img
             src="/waterlogo.PNG"
@@ -76,6 +98,7 @@ export default function Home() {
           Get in touch
         </Link>
       </header>
+
       <main className="relative pt-[110px] z-20">
         <div className="flex flex-col items-center h-full">
           <Tab.Group>
@@ -94,30 +117,34 @@ export default function Home() {
                 </Tab>
               ))}
             </Tab.List>
-            <Tab.Panels className="h-full h-full max-w-[900px] w-full p-2 sm:p-4 my-6">
-              <Tab.Panel>
+            <Tab.Panels className=" h-full max-w-[900px] w-full p-2 sm:p-4 my-6">
+              <Tab.Panel className="overflow-auto">
                 <Masonry
                   breakpointCols={2}
                   className="flex gap-4"
                   columnClassName="">
                   {images.map((image, index) => (
-                    <Image
-                      key={image.src}
-                      src={image}
-                      alt="caca1"
-                      className="my-4 hover:opacity-70 cursor-pointer"
-                      placeholder="blur"
+                    <div className="relative">
+                      <Image
+                        key={image.src}
+                        src={image}
+                        alt="caca1"
+                        className="relative my-4"
+                        placeholder="blur"
+                       />
+                      <div className="absolute w-full h-full inset-0 bg-transparent hover:bg-stone-900 hover:bg-opacity-10 cursor-pointer"
                       onClick={() => {
                         lightboxRef.current?.openGallery(index);
-                      }}
-                    />
+                      }}>
+                    </div>
+                    </div>
                   ))}
                 </Masonry>
                 {/*}  <Image src={caca1} alt="caca1" className="my-4" placeholder="blur"/>
                   <Image src={caca3} alt="caca3" className="my-4" placeholder="blur" />
                   <Image src={caca4} alt="caca4" className="my-4" placeholder="blur"/>
                   <Image src={caca5} alt="caca5" className="my-4" placeholder="blur"/>
-                  <Image src={caca6} alt="caca6" className="my-4" placeholder="blur"/> */}
+                    <Image src={caca6} alt="caca6" className="my-4" placeholder="blur"/> */}
 
                 {/*} <img src="/caca.jpg" alt="caca-1" className="my-4" />
                   <img src="/caca-3.jpg" alt="caca-3" className="my-4" />
@@ -147,7 +174,7 @@ export default function Home() {
       </main>
 
       <footer className="relative h-[90px] flex justify-center items-center uppercase text-lg font-medium z-20">
-        <p>Trevor Twomey Photography</p>
+        <p>©Trevor Twomey Photography 2023</p>
       </footer>
     </div>
   );
