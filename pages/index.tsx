@@ -144,7 +144,6 @@ export default function Home({ photos }: HomeProps) {
         height={750}
         className="relative my-4 cursor-pointer"
         
-        
       />
       <div
         className="absolute w-full h-full inset-0 bg-transparent hover:bg-stone-900 hover:bg-opacity-10 cursor-pointer"
