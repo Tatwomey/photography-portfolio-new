@@ -24,9 +24,18 @@ import caca4 from "../public/caca-4.jpg";
 import caca5 from "../public/caca-5.jpg";
 import caca6 from "../public/caca-6.jpg";
 import selfie from "../public/trevortwomeyselfie.jpeg";
+import pic1 from "../public/ head-korn-jones-beach-2022_trevortwomey.jpg";
+import pic2 from "../public/ head-korn-jones-beach-2022_trevortwomey-2.jpg";
+import pic3 from "../public/davey-oberline-ftl20-trevortwomey.jpg";
+import pic4 from "../public/IAMX_NYC_2023_trevortwomey.jpg";
+import pic5 from "../public/morgan-rose-7dust-nyc-2022-trevortwomey.jpg";
+import pic6 from "../public/IAMX_NYC_2023_trevortwomey-2.jpg";
+import pic7 from "../public/jonathan-davis-korn-jones-beach-2022-trevortwomey.jpg";
+
+
 import { useRef } from "react";
 
-type images = {
+type photos = {
   src: string;
   thumb: string;
 };
@@ -46,22 +55,22 @@ const tabs = [
 ];
 
 type HomeProps = {
-  images: {
+  photos: {
     src: string;
   }[];
 };
 
 export const getStaticProps: GetStaticProps<HomeProps> = async () => {
-  const images = [caca1, caca3, caca4, caca5, caca6];
+  const photos = [pic1, pic2, pic3, pic4, pic5, pic6, pic7];
 
   return Promise.resolve({
     props: {
-      images,
+      photos,
     },
   });
 };
 
-export default function Home({ images }: HomeProps) {
+export default function Home({ photos }: HomeProps) {
   const lightboxRef = useRef<LightGallery | null>(null);
 
   return (
@@ -119,27 +128,35 @@ export default function Home({ images }: HomeProps) {
             </Tab.List>
             <Tab.Panels className=" h-full max-w-[900px] w-full p-2 sm:p-4 my-6">
               <Tab.Panel className="overflow-auto">
-                <Masonry
-                  breakpointCols={2}
-                  className="flex gap-4"
-                  columnClassName="">
-                  {images.map((image, index) => (
-                    <div className="relative">
-                      <Image
-                        key={image.src}
-                        src={image}
-                        alt="caca1"
-                        className="relative my-4"
-                        placeholder="blur"
-                       />
-                      <div className="absolute w-full h-full inset-0 bg-transparent hover:bg-stone-900 hover:bg-opacity-10 cursor-pointer"
-                      onClick={() => {
-                        lightboxRef.current?.openGallery(index);
-                      }}>
-                    </div>
-                    </div>
-                  ))}
-                </Masonry>
+              
+<Masonry
+  breakpointCols={{ default: 3, 900: 2, 600: 1 }}
+  className="flex gap-4"
+  columnClassName=""
+>
+  {photos.map((photo, index) => (
+    <div className="relative">
+      <Image
+      key={photo.src}
+        src={photo.src}
+        alt="caca1"
+        width={500}
+        height={750}
+        className="relative my-4 cursor-pointer"
+        
+        
+      />
+      <div
+        className="absolute w-full h-full inset-0 bg-transparent hover:bg-stone-900 hover:bg-opacity-10 cursor-pointer"
+        onClick={() => {
+          lightboxRef.current?.openGallery(index);
+        }}
+      ></div>
+    </div>
+  ))}
+</Masonry>
+
+
                 {/*}  <Image src={caca1} alt="caca1" className="my-4" placeholder="blur"/>
                   <Image src={caca3} alt="caca3" className="my-4" placeholder="blur" />
                   <Image src={caca4} alt="caca4" className="my-4" placeholder="blur"/>
@@ -160,9 +177,9 @@ export default function Home({ images }: HomeProps) {
                   speed={500}
                   plugins={[lgThumbnail, lgZoom]}
                   dynamic
-                  dynamicEl={images.map((image) => ({
-                    src: image.src,
-                    thumb: image.src,
+                  dynamicEl={photos.map((photo) => ({
+                    src: photo.src,
+                    thumb: photo.src,
                   }))}
                 />
               </Tab.Panel>
