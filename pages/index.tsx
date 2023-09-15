@@ -135,7 +135,7 @@ export default function Home({ photos }: HomeProps) {
   columnClassName=""
 >
   {photos.map((photo, index) => (
-    <div className="relative">
+    <div className="relative" key={photo.src}>
       <Image
       key={photo.src}
         src={photo.src}
